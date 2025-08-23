@@ -147,6 +147,9 @@ MonoBehaviour:
   traumaDecay: 1
   traumaPower: 2
   frequency: 25
+  _traumaValue: 0
+  trauma_enemyOnHit: 0.25
+  trauma_enemyOnDeath: 0.75
 --- !u!114 &1121337826437400986
 MonoBehaviour:
   m_ObjectHideFlags: 0

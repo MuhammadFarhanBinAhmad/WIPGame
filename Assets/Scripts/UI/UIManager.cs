@@ -11,11 +11,12 @@ public class UIManager : UISubject
     public void UpdateEnemyCount(BaseEnemy enemy)
     {
         print("enemy down");
+        enemy.OnEnemyDied -= UpdateEnemyCount;
+
     }
 
     void Start()
     {
-        UpdatePlayerUIObserver();
     }
 
 

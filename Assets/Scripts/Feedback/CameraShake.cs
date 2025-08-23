@@ -29,7 +29,8 @@ public class CameraShake : MonoBehaviour
     private Vector3 originalLocalPos;
     private Quaternion originalLocalRot;
 
-
+    [Header("TraumaValueForEnemy")]
+    [SerializeField] float trauma_enemyOnHit,trauma_enemyOnDeath;
 
     private void Awake()
     {
@@ -45,16 +46,20 @@ public class CameraShake : MonoBehaviour
         seedRotX = Random.Range(0f, 100f);
         seedRotY = Random.Range(0f, 100f);
     }
-    //note to self, remove magic number. make it a passsable param value
-    public void AddCamShakeEvent(BaseEnemy enemy)
+    public void AddCamShakeOnDeathEvent(BaseEnemy enemy)
     {
-        enemy.OnEnemyDied += (e) => SetTrauma(e, 1f);
+        enemy.OnEnemyDied += (e) => SetTrauma(e, trauma_enemyOnDeath);
     }
-    public void RemoveCamShakeEvent(BaseEnemy enemy)
+    public void RemoveCamShakeOnDeathEvent(BaseEnemy enemy)
     {
-        enemy.OnEnemyDied -= (e) => SetTrauma(e, 1f);
+        enemy.OnEnemyDied -= (e) => SetTrauma(e, trauma_enemyOnDeath);
     }
     private void SetTrauma(BaseEnemy enemy, float value) => trauma = Mathf.Clamp01(value);
+
+    public void OnEnemyHit()
+    {
+
+    }
 
     private void Update()
     {

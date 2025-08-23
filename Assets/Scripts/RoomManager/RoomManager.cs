@@ -13,19 +13,17 @@ public class RoomManager : MonoBehaviour
     {
         _EnemyList.Add (_enemy);
         _enemy.OnEnemyDied += OnEnemyDeath;
-
+        _camShake.AddCamShakeOnDeathEvent(_enemy);
+        _camShake.RemoveCamShakeOnDeathEvent(_enemy);
     }
 
     public void OnEnemyDeath(BaseEnemy _enemy)
     {
-        print("remove");
-
         if (!_EnemyList.Contains(_enemy))
             return;
         
         _enemy.gameObject.SetActive (false);
         _EnemyList.Remove(_enemy);
-
 
         if (_isRoomCleared)
             { return; }

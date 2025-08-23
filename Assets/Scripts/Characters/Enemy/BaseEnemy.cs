@@ -10,8 +10,6 @@ public abstract class BaseEnemy : MonoBehaviour
         ATTACKING
     }
 
-
-    protected RoomManager _RoomManager;
     protected GameObject _target;
     protected Rigidbody2D _rigidbody;
 
@@ -36,17 +34,21 @@ public abstract class BaseEnemy : MonoBehaviour
 
 
     public event Action<BaseEnemy> OnEnemyDied;
+    public event Action<BaseEnemy> OnEnemyHit;
 
     private void OnEnable()
     {
+
+
         _target = FindAnyObjectByType<PlayerManager>().gameObject;
-        _RoomManager = FindAnyObjectByType<RoomManager>();
         _rigidbody = GetComponent<Rigidbody2D>();
 
         SetValue();
 
         _state = STATE.PATROLLING;
 
+
+        Player_Combo.Instance.AddEnemyToComboCountList(this);
     }
 
     protected virtual void SetValue(){}
@@ -147,9 +149,12 @@ public abstract class BaseEnemy : MonoBehaviour
         {
             _currentHealth -= dmg;
             _state = STATE.ATTACKING;
+            OnEnemyHit?.Invoke(this);
         }
         else
+        {
             OnEnemyDied?.Invoke(this);
+        }
     }
 
     public void OnTriggerEnter2D(Collider2D other)
@@ -157,8 +162,9 @@ public abstract class BaseEnemy : MonoBehaviour
 
         if (other.GetComponent<RoomManager>() != null)
         {
-            other.GetComponent<RoomManager>().AddEnemyToList(this);
-            other.GetComponent<RoomManager>()._camShake.AddCamShakeEvent(this);
+            RoomManager _roomManager = other.GetComponent<RoomManager>();
+            _roomManager.AddEnemyToList(this);
+
         }
         if (other.GetComponent<Projectiles>() != null)
         {

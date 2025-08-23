@@ -252,6 +252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _trailRenderer: {fileID: 3923314990372641920}
+  time_tillDisable: 3
 --- !u!50 &7917766362247819019
 Rigidbody2D:
   serializedVersion: 5

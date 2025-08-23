@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RangeEnemyStats_01
   m_EditorClassIdentifier: 
   _baseSpeed: 5
-  _baseHealth: 25
+  _baseHealth: 100
   _attackRate: 2
   _stopDistance: 5
   _viewrange: 10

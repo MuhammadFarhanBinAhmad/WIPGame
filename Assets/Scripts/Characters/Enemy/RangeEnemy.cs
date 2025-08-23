@@ -31,7 +31,6 @@ public class RangeEnemy : BaseEnemy
 
         if (Time.time >= _nextAttack)
         {
-            Debug.Log("attack player");
             GameObject GO_proj = _pool.GetProjectile();
             Projectiles _proj = GO_proj.GetComponent<Projectiles>();
 

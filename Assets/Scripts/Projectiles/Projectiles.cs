@@ -1,3 +1,5 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum BULLETOWNER
@@ -13,9 +15,14 @@ public class Projectiles : MonoBehaviour
 
     Vector2 _direction;
 
+    [SerializeField] float time_tillDisable;
+    float time_currentTillDisable;
+
     internal BULLETOWNER _BulletOwner;
     int _dmg, _speed;
 
+    public event Action<Projectiles> OnEnemyHit;
+    public event Action<Projectiles> OnEnemyDied;
 
     private void Start()
     {
@@ -23,7 +30,7 @@ public class Projectiles : MonoBehaviour
     }
     private void OnEnable()
     {
-        Invoke("SelfDestruct", 3);
+        time_currentTillDisable = time_tillDisable;
     }
     public void SetDamage(int dmg) { _dmg = dmg; }
     public int GetDamage() { return _dmg; }
@@ -41,6 +48,10 @@ public class Projectiles : MonoBehaviour
     private void FixedUpdate()
     {
         _rigidbody.linearVelocity = _direction * _speed;
+        if (time_currentTillDisable >= 0)
+            time_currentTillDisable -= Time.deltaTime;
+        else
+            SelfDestruct();
     }
 
 
