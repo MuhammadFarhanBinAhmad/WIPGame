@@ -1,5 +1,4 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class BaseEnemy : MonoBehaviour
@@ -10,7 +9,7 @@ public abstract class BaseEnemy : MonoBehaviour
         ATTACKING
     }
 
-    protected GameObject _target;
+    [SerializeField]protected GameObject _target;
     protected Rigidbody2D _rigidbody;
 
 
@@ -38,8 +37,6 @@ public abstract class BaseEnemy : MonoBehaviour
 
     private void OnEnable()
     {
-
-
         _target = FindAnyObjectByType<PlayerManager>().gameObject;
         _rigidbody = GetComponent<Rigidbody2D>();
 
@@ -47,8 +44,8 @@ public abstract class BaseEnemy : MonoBehaviour
 
         _state = STATE.PATROLLING;
 
+        FindAnyObjectByType<Player_Combo>().AddEnemyToComboCountList(this);
 
-        Player_Combo.Instance.AddEnemyToComboCountList(this);
     }
 
     protected virtual void SetValue(){}
@@ -174,6 +171,8 @@ public abstract class BaseEnemy : MonoBehaviour
                 TakeDamage(temp_Proj.GetDamage());
                 temp_Proj.SelfDestruct();
             }
+
+            AudioManager.Instance.PlayOneShot(FmodEvent.Instance.sfx_EnemyHit, this.transform.position);
 
         }
     }

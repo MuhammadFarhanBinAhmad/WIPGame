@@ -49,11 +49,16 @@ public class UI_PlayerCombo : MonoBehaviour
     public void ChangeComboNumberLevelText(int combocount)
     {
         text_NumberCombo.text = "x" + combocount.ToString();
-        for (int i = 0; i < _Combo._comboLevelRequisite.Count; i++)
+        foreach (var level in _Combo.levels)
         {
-            if (combocount == _Combo._comboLevelRequisite[i])
+            if (combocount == level.requisite)
             {
-                text_LevelCombo.text = _Combo._comboLevelName[i];
+                if (!string.IsNullOrEmpty(level.levelName))
+                {
+                    text_LevelCombo.text =
+                    $"<size={level.sizePercent}%><color=#{UnityEngine.ColorUtility.ToHtmlStringRGB(level.color)}>{level.levelName[0]}</color></size>{level.levelName.Substring(1)}";
+                }
+
                 text_timer = 0;
                 return;
             }

@@ -1,7 +1,7 @@
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
-
+using FMOD.Studio;
 public class PlayerManager : Character
 {
     [Header("Jump and Ground Check Settings")]
@@ -29,6 +29,11 @@ public class PlayerManager : Character
 
     private bool _isDashing = false;
 
+    [Header("Audio")]
+
+    EventInstance sfx_PlayerFootStep;
+
+
     public bool GetIsDashing() { return _isDashing; }
     public void SetIsDashinag(bool dashing) { _isDashing = dashing; }
 
@@ -36,6 +41,8 @@ public class PlayerManager : Character
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         base.Start();
+
+        sfx_PlayerFootStep = AudioManager.Instance.CreateEventInstance(FmodEvent.Instance.sfx_PlayerFootStep);
     }
 
     void Update()
@@ -43,6 +50,7 @@ public class PlayerManager : Character
         Movement();
         HandleRotation();
         StartDash();
+        UpdateSound();
     }
 
 
@@ -63,6 +71,8 @@ public class PlayerManager : Character
         {
             _rigidbody.linearVelocity = new Vector2(_rigidbody.linearVelocity.x, _jumpForce);
         }
+
+
     }
 
  void HandleRotation()
@@ -132,6 +142,7 @@ public class PlayerManager : Character
             _isDashing = true;
             _dashCurrentCooldownTime = _dashCooldown;
             _rigidbody.linearVelocity = Vector2.zero;
+            AudioManager.Instance.PlayOneShot(FmodEvent.Instance.sfx_PlayerDashing,transform.position);
             StartCoroutine(Dashing());
         }
     }
@@ -148,5 +159,21 @@ public class PlayerManager : Character
         float dir = Input.GetAxis("Horizontal");
         _rigidbody.linearVelocity = new Vector2(dir * _dashForce, _rigidbody.linearVelocity.y);
     }
+    void UpdateSound()
+    {
+        if(_rigidbody.linearVelocityX != 0 && _isGrounded)
+        {
+            PLAYBACK_STATE playbackstate;
+            sfx_PlayerFootStep.getPlaybackState(out playbackstate);
 
+            if (playbackstate.Equals(PLAYBACK_STATE.STOPPED))
+            {
+                sfx_PlayerFootStep.start();
+            }
+        }
+        else
+        {
+            sfx_PlayerFootStep.stop(STOP_MODE.ALLOWFADEOUT);
+        }
+    }
 }

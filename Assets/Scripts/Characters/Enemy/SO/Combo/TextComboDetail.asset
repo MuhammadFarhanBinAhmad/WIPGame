@@ -12,14 +12,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b111ce807d4113498808c3c638ae221, type: 3}
   m_Name: TextComboDetail
   m_EditorClassIdentifier: 
-  _comboLevelRequisite: 0200000005000000080000000c0000000f00000011000000
-  _comboLevelName:
-  - Decent
-  - Commendable
-  - Beautiful
-  - 'Awe-Inspring '
-  - Stupendous
-  - 'Simple-Stunning '
+  levels:
+  - requisite: 3
+    levelName: Commendable
+    color: {r: 1, g: 0.02714713, b: 0, a: 1}
+    sizePercent: 100
+  - requisite: 6
+    levelName: Brilliant
+    color: {r: 0.025370955, g: 1, b: 0, a: 1}
+    sizePercent: 125
+  - requisite: 9
+    levelName: Awe-Inspiring
+    color: {r: 0, g: 0.9033842, b: 1, a: 1}
+    sizePercent: 150
+  - requisite: 12
+    levelName: AweInspiring
+    color: {r: 0.45573044, g: 0, b: 1, a: 1}
+    sizePercent: 175
+  - requisite: 15
+    levelName: Stunning
+    color: {r: 1, g: 0.82728094, b: 0.43867922, a: 1}
+    sizePercent: 200
   text_duration: 0.1
   level_sizeStart: 25
   level_sizePeak: 30

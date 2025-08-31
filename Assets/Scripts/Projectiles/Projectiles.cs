@@ -1,6 +1,7 @@
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
+using FMODUnity;
 
 public enum BULLETOWNER
 {
@@ -10,6 +11,10 @@ public enum BULLETOWNER
 
 public class Projectiles : MonoBehaviour
 {
+
+    public event Action<Projectiles> OnEnemyHit;
+    public event Action<Projectiles> OnEnemyDied;
+
     Rigidbody2D _rigidbody;
     [SerializeField]TrailRenderer _trailRenderer;
 
@@ -21,12 +26,11 @@ public class Projectiles : MonoBehaviour
     internal BULLETOWNER _BulletOwner;
     int _dmg, _speed;
 
-    public event Action<Projectiles> OnEnemyHit;
-    public event Action<Projectiles> OnEnemyDied;
 
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
+
     }
     private void OnEnable()
     {
@@ -59,5 +63,13 @@ public class Projectiles : MonoBehaviour
     {
         _trailRenderer.Clear();
         gameObject.SetActive(false);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Ground")
+        {
+            SelfDestruct();
+        }
     }
 }

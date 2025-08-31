@@ -4,18 +4,10 @@ public class Player_Combo : MonoBehaviour
 {
     int combo_Count;
 
-
-    public static Player_Combo Instance { get; private set; }
-
-
-    private void OnEnable()
-    {
-        Instance = this;
-    }
-
     public void AddEnemyToComboCountList(BaseEnemy enemy)
     {
         enemy.OnEnemyHit += IncreaseComboCount;
+        enemy.OnEnemyDied += IncreaseComboCount;
     }
 
     public void IncreaseComboCount(BaseEnemy enemy)

@@ -15,10 +15,6 @@ public class UIManager : UISubject
 
     }
 
-    void Start()
-    {
-    }
-
 
 
 }

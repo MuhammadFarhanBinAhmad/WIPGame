@@ -3,6 +3,7 @@ using UnityEngine;
 public class Player_Weapon : WeaponBase
 {
 
+
     PlayerManager _PlayerManager;
 
     [SerializeField] float cam_shakeValue;
@@ -62,6 +63,8 @@ public class Player_Weapon : WeaponBase
         proj.SetPosition(_SpawnPosition.position);
         proj.SetDamage(so_WeaponType.ammo_damage);
         proj.SetSpeed(so_WeaponType.ammo_speed);
+
+        AudioManager.Instance.PlayOneShot(FmodEvent.Instance.sfx_GunShot, this.transform.position);
     }
     void AimAtMouse()
     {
